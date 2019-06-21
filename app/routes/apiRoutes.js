@@ -16,7 +16,7 @@ module.exports = function(app){
                 result.link = $(this)
                     .parent("a")
                     .attr("href");
-
+                result.photo = $(this).find("img").attr("srcset");
                 db.Article.create(result)
                 .then(function(dbArticle){
                     console.log(dbArticle);
@@ -29,6 +29,7 @@ module.exports = function(app){
         });
     });
 
+    // Route for getting all Articles from the db
     app.get("/articles", function(req, res){
         db.Article.find({})
             .then(function(dbArticle) {
@@ -40,15 +41,28 @@ module.exports = function(app){
     })
 
     // TODO: Route for getting specific Article (by id) to populate its comment
-    // Route for getting all Articles from the db
-    // app.get("/articles", function(req, res){
-    //     db.Article.find({})
-    //     .then(function(dbArticle){
-    //         res.json(dbArticle);
-    //     })
-    //     .catch(function(err){
-    //         console.log(err);
-    //     });
-    // });
+    app.get("/articles/:id", function(req, res){
+        db.Article.findOne({ _id: req.params.id })
+        .populate("comment")
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err){
+            res.json(err);
+        });
+    });
     // TODO: Route for saving/updating an Article's associated Comment
+    app.post("/articles/:id", function(req, res) {
+        db.Comment.create(req.body)
+        .then(function(dbComment){
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+        })
+        .then(function(dbArticle){
+            res.json(dbArticle);
+        })
+        .catch(function(err){
+            res.json(err);
+        });
+    });
+    
 }
