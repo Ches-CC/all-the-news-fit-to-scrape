@@ -3,20 +3,35 @@ var app = require("express");
 var axios = require("axios");
 var db = require("../models");
 var cheerio = require("cheerio");
+// var srcset = require("srcset");
+// var parse = srcset.parse;
 
 module.exports = function(app){
     app.get("/scrape", function(req, res){
-        axios.get("https://www.clickhole.com/").then(function(response){
+        axios.get("https://www.clickhole.com").then(function(response){
             var $ = cheerio.load(response.data);
 
-            $(".eTpFaP").each(function(i, element){
+            $("article").each(function(i, element){
                 var result = {};
+                srcsetArray = [];
+                // let photo;
+                result.title = $(this)
+                    .find("h1")
+                    .text();
 
-                result.title = $(this).text();
                 result.link = $(this)
-                    .parent("a")
+                    .find("a")
                     .attr("href");
-                result.photo = $(this).find("img").attr("srcset");
+                
+                // photo = $(this)
+                //     .find("img")
+                //     .attr("srcSet");
+                
+                // console.log("Photo scrape: " + photo);
+                // srcsetArray.push(parse(photo));
+
+                console.log(srcsetArray);
+                
                 db.Article.create(result)
                 .then(function(dbArticle){
                     console.log(dbArticle);
