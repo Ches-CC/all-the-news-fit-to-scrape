@@ -11,13 +11,13 @@ body {
 #articles {
   display: inline-block;
   overflow: auto;
-  width: 60%;
+  width: 65%;
   height: 90%;
   background-color: azure;
 }
 #comments {
   float: right;
-  width: 30%;
+  width: 35%;
 }
 textarea,
 input {

@@ -9,14 +9,14 @@ var ArticleSchema = new Schema({
         required: true
     },
 
-    link: {
+    summary: {
         type: String,
         required: true
     },
 
-    photo: {
+    link: {
         type: String,
-        required: false
+        required:true
     },
 
     comment: {
