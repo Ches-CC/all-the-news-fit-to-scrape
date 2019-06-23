@@ -34,7 +34,6 @@ module.exports = function(app) {
           });
       });
       res.send("Site Scraped!");
-      console.log("Site done been scraped!");
     });
   });
 

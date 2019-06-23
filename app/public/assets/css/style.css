@@ -33,3 +33,14 @@ textarea {
   height: 200px;
   font-size: 18px;
 }
+p, h1, h2, h3, h4, h5 {
+  font-family: 'Noto Sans', sans-serif;
+}
+#comment-box {
+  position: sticky;
+  top: 0;
+}
+
+#page-title {
+  background-image: url("./full-bloom.png");
+}

@@ -10,11 +10,12 @@ $.getJSON("/articles", function(data) {
         data[i].title +
         "</h5><p class='card-text'>" +
         data[i].summary +
-        "</p></div><div class='card-footer text-muted bg-light mb-3' data-id='" +
+        "</p></div><div class='card-footer text-muted bg-light' data-id='" +
         data[i]._id +
-        "'>" +
+        "'><a href='" +
         data[i].link +
-        "</div></div>"
+        "'>" + data[i].link + 
+        "</a></div></div>"
     );
   }
 });
@@ -29,21 +30,14 @@ $(document).on("click", ".card", function() {
     url: "/articles/" + thisId
   }).then(function(data) {
     console.log(data);
-    $("#comments").append("<div class='form-group bg-light border'");
-    $("#comments").append("<h3>" + data.title + "</h3>");
-    $("#comments").append("<label for='titleinput'>Comment Title</label>");
     $("#comments").append(
-      "<input class='form-control' id='titleinput' name='title'>"
-    );
-    $("#comments").append("<label for='bodyinput'>Comment Body</label>");
-    $("#comments").append(
-      "<input class='form-control' id='bodyinput' rows='3' name='body'></textarea>"
-    );
-    $("#comments").append(
-      "<button class='btn-primary' data-id='" +
+        "<div class='form-group bg-light border my-3 mx-1 px-1 py-3' style='position:sticky; top: 0px;' id='comment-box'><h5>~Comment Saver~</h5><h4>" + data.title + 
+        "</h4><input class='form-control' id='titleinput' placeholder='Note Subject' name='title'>" + 
+        "<textarea class='form-control' placeholder='Your Notes Go Here' id='bodyinput' rows='3' name='body'></textarea>" + 
+        "<button class='btn-primary mt-2' data-id='" +
         data._id +
         "' id='savenote'>Save Note</button></div>"
-    );
+    )
 
     if (data.comment) {
       $("#titleinput").val(data.comment.title);
